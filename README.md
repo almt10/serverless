@@ -1,12 +1,28 @@
-# Serverless and Microservices deployment
-Design and deployment of a microservices based application using an open source Serverless Platform. 
+# Plataforma Serverless y Aplicación basada en microservicios
+Diseño y despliegue de una aplicación basada en microservicios sobre una plataforma Serverless de código abierto. 
 
-This study corresponds to *Alberto Marugán Torres Master Thesis in Telecommunications Engineer at Universidad Politécnica de Madrid (UPM).*
+Este estudio se corresponde con el *Trabajo Fin de Máster (MUIT) de Alberto Marugán Torres en la Universidad Politécnica de Madrid (UPM).*
 
-## Main Points
-The main steps followed to deploy this solution are:
-  1. Set up a suitable orchestrator in some virtual machines
-  2. Deploy the Serverless Platform
-  3. Create and Upload the microservices to the Platform
-  4. Run these microservices
-  5. Test the main characteristics
+## Principales pasos
+Los principales puntos a seguir para conseguir desplegar esta solución son:
+  1. Configurar un orquestador sobre un clúster de máquinas virtuales
+  2. Desplegar la plataforma Serverless
+  3. Crear y subir a la plataforma la aplicación basada en microservicios
+  4. Ejecutar la aplicación para comprobar que todo funciona correctamente
+  5. Testear las principales características de la plataforma
+ 
+## Confiruar un orquestador
+En nuestro caso, hemos optado por desplegar la solución utilizando tanto Docker Swarm como Kubernetes, con el objeto de analizar ambos orquestadores.
+
+La información del despliegue de ambos se encuentra en las carpetas *Kubernetes y Docker Swarm* del repositorio.
+
+Como comentario general, Docker Swarm es más fácil de desplegar, requeriendo incluso un menor número de máquinas virtuales. Por lo tanto, en nuestro caso, lo hemos utilizado para un entorno de desarrollo y pruebas. 
+
+Por el otro lado, Kubernetes es más complejo y requiere una mayor comprensión de conceptos y configuraciones. Es por ello que, en nuestro despliegue, ha sido utilizado en el entorno de producción o entorno final.
+
+## Desplegar la Plataforma Serverless
+En este punto también se ha optado por probar dos tipos de plataformas con el mismo fin, comparar ambas soluciones para quedarnos con la que más ventajas tiene.
+
+Desde mi punto de vista, la plataforma **OpenFaaS** proporciona un mayor número de ventajas que *Kubeless*, por lo que se ha optado por utilizar esta plataforma como solución final.
+
+La información de cómo desplegar cada una de ellas se encuentra en las carpetas *OpenFaas y Kubeless* de este repositorio.
