@@ -25,9 +25,6 @@ En este punto también se ha optado por probar dos tipos de plataformas con el m
 
 Desde mi punto de vista, la plataforma **OpenFaaS** proporciona un mayor número de ventajas que *Kubeless*, por lo que se ha optado por utilizar esta plataforma como solución final.
 
-<img style="width:20%; text-align:center" src="http://collabnix.com/wp-content/uploads/2018/04/PWD7.png" />
-<img src="https://cdn-images-1.medium.com/max/1600/1*cp4NmnTaxlJte9ie3Kt2fA.png" />
-
 La información de cómo desplegar cada una de ellas se encuentra en las carpetas *OpenFaas y Kubeless* de este repositorio.
 
 ## Diseño de una aplicación basada en microservicios
