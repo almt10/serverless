@@ -1,1 +1,4 @@
 
+Microservicio encargado de proporcionar la batería de preguntas para el cuestionario.
+
+*Modificar la batería inicial de preguntas en la carpeta json*
