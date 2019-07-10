@@ -25,7 +25,7 @@ swarm o cluster de nodos:
 3. Es posible comprobar que el nodo se ha unido correctamente al swarm. Simplemente
 podemos utilizar otra de las funcionalidades del comando “docker” ejecutado en el terminal
 del master para comprobar el número de nodos disponibles:
-       docker node ls
+       *docker node ls*
 
 4. Por último, podemos ver dónde se están ejecutando las tareas con:
-       docker node ps
+       *docker node ps*
