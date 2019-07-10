@@ -1,0 +1,8 @@
+provider:
+  name: openfaas
+  gateway: http://127.0.0.1:8080
+functions:
+  ingest-file:
+    lang: python3
+    handler: ./ingest-file
+    image: almt10/ingest-file:latest
