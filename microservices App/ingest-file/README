@@ -1,0 +1,3 @@
+Microservicio encargado de recoger los resultados de los usuarios y mostrar las estadísticas al administrador.
+
+*El formato inicial debe coincidir con el de las preguntas del microservicio database*
