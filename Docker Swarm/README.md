@@ -29,3 +29,8 @@ del master para comprobar el número de nodos disponibles:
 
 4. Por último, podemos ver dónde se están ejecutando las tareas con:
        *docker node ps*
+       
+       
+       
+## Más información
+En la página oficial de Docker https://docs.docker.com/engine/swarm/key-concepts/
