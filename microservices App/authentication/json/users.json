@@ -1,8 +1,7 @@
-{"number": 5, 
+{"number": 4, 
     "people": [
             {"userId": "almt10","passwd":"openfaas19" , "name": "Alberto Marugán", "role": "ADMIN"},
             {"userId": "pablo09","passwd":"openfaas19" , "name": "Pablo Gonzalez", "role": "USER"},
             {"userId": "carlos03","passwd":"openfaas19" , "name": "Carlos Sanz", "role": "USER"}, 
-            {"userId": "jaime08","passwd":"openfaas19" , "name": "Jaime Diego", "role": "USER"}, 
-            {"userId": "JoaquinSalvachua","passwd":"openfaas19" , "name": "Joaquín Salvachúa", "role": "ADMIN"}],
+            {"userId": "jaime08","passwd":"openfaas19" , "name": "Jaime Diego", "role": "USER"}],
     "message": "success"}
