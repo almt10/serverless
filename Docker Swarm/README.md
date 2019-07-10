@@ -5,7 +5,7 @@
 2. Una vez instalado y comprobado que podemos utilizar el comando “docker”, es momento de crear el
 swarm o cluster de nodos:
 
-        Para ello, en el terminal de la máquina que queramos utilizar como master ejecutamos:
+        1. Para ello, en el terminal de la máquina que queramos utilizar como master ejecutamos:
                 *docker swarm init*
 
         La salida de este comando nos devuelve directamente el comando que hay que ejecutar en el
@@ -16,7 +16,7 @@ swarm o cluster de nodos:
         unirnos. Esta información puede variar en función de si queremos que la máquina se añada como
         master o como worker.
 
-        Además del token necesario, también es necesario pasar como parámetro la dirección IP del
+        2. Además del token necesario, también es necesario pasar como parámetro la dirección IP del
         master y el puerto en el que escucha las peticiones hacia el swarm. Como ejemplo:
                 *docker swarm join --token SWMTKN-1-
                 1x5dk8l84579j3hu9d4k9lut7gkg69p91gqmke0uf8tu23evmi-bepqzyb4axlhzlc8ao1o7129s
