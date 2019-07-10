@@ -1,3 +1,5 @@
+<img src="https://s3-us-west-2.amazonaws.com/assets.site.serverless.com/blog/kubeless.png" />
+
 ## Instalación de Kubeless
 
 Para la instalación de Kubernetes, siga las instrucciones en la carpeta de Kubernetes del proyecto
