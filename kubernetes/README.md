@@ -1,7 +1,7 @@
 ## Principales pasos
 
 1. Inicializamos el cluster en el nodo master como superusuario:
-      kubeadm init
+    - kubeadm init
       
     Pudiendo añadir determinadas opciones de configuración, como el CIDR de la subred que
     utilizan los nodos del cluster para comunicarse, entre otras.
@@ -20,3 +20,14 @@ kubectl para interaccionar con el cluster.
 
 3. Seguidamente, es necesario instalar un pod de red. Sin embargo, de todos los pods disponibles, el que 
 proporciona una implementación sencilla pero totalmente válida para una comunicación simple entre pods es *_Weave Net_*.
+
+4. El siguiente paso a llevar a cabo es la unión de los diferentes nodes al cluster, con la información 
+que sale del comando del paso 1.
+
+5. En este punto, ya podemos volver al terminal del master y ejecutar alguna de las funcionalidades del comando kubectl
+para interaccionar con el cluster:
+      - kubectl get nodes -o wide
+      
+      
+## Más información
+En la página oficial de Kubernetes https://kubernetes.io/es/docs/tasks/tools/install-kubectl/
