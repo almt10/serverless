@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <title>OpenFAAS Quiz</title>
+  <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+
+  <style type="text/css">
+    body{ text-align: center; background-color:rgb(107, 144, 255) ; }
+    #cont{ width: 60%; margin: 10% 20% 0% 20%; text-align: center; background-color: white; border-radius: 5em}
+    #titulo{padding: 5%; margin: 0% 15% 0% 15%;}
+    #logo{height: 50%;  width: 50%; margin: 10% 0% 5% 0%; position: center;}
+    #boton{width: 20%; margin: 10% 0% 10% 0%;}
+     
+  </style>
+
+</head>
+<body>
+  <div id= "cont">
+
+    <img id="logo" src="https://camo.githubusercontent.com/cf01eefb5b6905f3774376d6d1ed55b8f052d211/68747470733a2f2f626c6f672e616c6578656c6c69732e696f2f636f6e74656e742f696d616765732f323031372f30382f666161735f736964652e706e67"></img>
+
+    <h2 id="titulo">Gracias por rellenar el formulario!</h2>
+
+    
+
+    <form>    
+      <input type="button"    onclick="inicio()"    id = "boton" value="Volver a la pagina principal">     
+    </form>
+</div>
+
+<script type="text/javascript">
+  function inicio(){
+      document.location.href="http://127.0.0.1:8080/function/show-html/index";
+  }
+</script>
+</body>
+</html>

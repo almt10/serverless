@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <title>OpenFaaS</title>
+  <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+
+  <style type="text/css">
+    body{ text-align: center;  background-repeat: no-repeat; background-image:url(http://wallpapers.org.es/wp-content/uploads/2012/10/fondo_de_lineas_y_degradados.jpeg) ; height: 100%}
+    #cont{ width: 60%; margin: 5% 20% 0% 20%; text-align: center; background-color:snow ; border-radius: 5em; opacity: 0.5;}
+    #titulo{padding: 5%; margin: 0% 10% 0% 10%; }
+    #comienzo{width: 20%; background-color:skyblue; height: 40px; border-radius: 20px}
+    #cuestionario{margin: 4% 5% 10% 5%; }
+    #boton{color:navy; background-color:skyblue ;text-align: center;margin: 6% 5% 5% 5%; width: 20%; height: 60px; border-radius: 20px}
+     
+  </style>
+
+</head>
+<body>
+  <div id="cont">
+    <div>
+      <h2 id="titulo">Bienvenido al cuestionario sobre Serverless!!</h2>
+
+      <div >
+        <form>    
+          <input id="comienzo" type="button"    onclick="comenzar()"  id="comienzo"  value="Comenzar Test">        
+        </form>
+      </div>
+    </div>
+
+    <div id="cuestionario">
+      <textarea class="result" cols="50" rows="1" class="result"  name="myTextArea" id="myTextArea"  style="font-size: xx-large; text-align:center  ;border:none ;visibility: hidden; background-color:none"></textarea>
+      <form id="Test" style="visibility: hidden;" name="formulario">
+          <div class="pregunta">
+            <h3>Pregunta 1:</h3>
+                <div style="text-align: left; width:60%; margin: 0% 60% 0% 10%" >
+                  <p id="preg1"></p>
+                  <input type="radio" value="a" name="preg_1" />
+                  <span>a) </span>
+                  <span id="ans_1_1"></span>
+                  <br/><br/><input type="radio" value="b" name="preg_1" />
+                  <span>b) </span>
+                  <span id="ans_2_1"></span>
+                  <br/><br/><input type="radio" value="c" name="preg_1" />
+                  <span>c) </span>
+                  <span id="ans_3_1"></span>
+                  <br/><br/>
+                </div>
+          </div>
+          <div class="pregunta1">
+              <h3>Pregunta 2:</h3>
+                <div style="text-align: left; width:60%; margin: 0% 60% 0% 10%">
+                  <p id="preg2"></p>
+                  <input type="radio" value="a" name="preg_2" />
+                  <span>a) </span>
+                  <span id="ans_1_2"></span>
+                  <br/><br/><input type="radio" value="b" name="preg_2" />
+                  <span>b) </span>
+                  <span id="ans_2_2"></span>
+                  <br/><br/><input type="radio" value="c" name="preg_2" />
+                  <span>c) </span>
+                  <span id="ans_3_2"></span>
+                  <br/><br/>
+                </div>
+
+           <div >
+
+          <input id = "boton" type = "button" onclick="calcular()" value="Enviar Respuestas"></input>
+        
+        </form>
+      </div>
+
+  </div>
+
+
+  <script type="text/javascript">
+    var test;
+    var user;
+    var totalPuntos = 0; 
+    var link = document.location.href;
+
+    var aux = link.split("?");
+    var aux2 = aux[1].split("=");
+    var user = aux2[1];
+
+    function comenzar()
+    {
+      document.getElementById("myTextArea").style.visibility = 'hidden';
+      document.getElementById("comienzo").style.visibility = 'hidden';
+      $.ajax({
+          url:'http://127.0.0.1:8080/function/database',
+          type:'POST'
+      })
+      .done(function(data) {
+          // ajax success
+          test = JSON.parse(data);
+          document.getElementById("preg1").innerHTML=test[0].question;
+          document.getElementById("ans_1_1").innerHTML=test[0].answers[0].answ;
+          document.getElementById("ans_2_1").innerHTML=test[0].answers[1].answ;
+          document.getElementById("ans_3_1").innerHTML=test[0].answers[2].answ;
+
+          document.getElementById("preg2").innerHTML=test[1].question;
+          document.getElementById("ans_1_2").innerHTML=test[1].answers[0].answ;
+          document.getElementById("ans_2_2").innerHTML=test[1].answers[1].answ;
+          document.getElementById("ans_3_2").innerHTML=test[1].answers[2].answ;
+
+          document.getElementById("Test").style.visibility = 'visible';
+          document.getElementById("comienzo").style.visibility = "hidden";
+
+          //setTimeout(refresh,300);
+          console.log(data);
+          
+      })
+      .fail(function(data) {
+          // ajax failure
+          $('.result').val(data);
+          console.log(data);
+      });
+        
+    }
+
+    function calcular(){
+        var i;
+        var j;
+        var answ1=" ";
+        var answ2=" ";
+
+   	    for (i=0;i<document.getElementsByName("preg_1").length;i++){ 
+      	    if (document.getElementsByName("preg_1")[i].checked) 
+         	    break; 
+   	    } 
+
+   	    for (j=0;j<document.getElementsByName("preg_2").length;j++){ 
+      	    if (document.getElementsByName("preg_2")[j].checked) 
+         	    break; 
+   	    } 
+
+        if(i<3){
+          if(test[0].answers[i].result=="TRUE"){
+            totalPuntos = totalPuntos + parseInt(test[0].points);
+            answ1 = test[0].answers[i].result;
+          }
+
+        }else{
+          answ1 = " "
+        }
+
+        if(j<3){
+          if(test[1].answers[j].result=="TRUE"){
+            totalPuntos = totalPuntos + parseInt(test[1].points);
+            answ2 = test[1].answers[j].result;
+          }
+
+        }else{
+          answ2 = " "
+        }
+
+        document.getElementById("Test").style.visibility = 'hidden';
+
+        document.getElementById("myTextArea").value = "Enhorabuena, Ud ha conseguido "+ totalPuntos+ " puntos!!!     ";
+        document.getElementById("myTextArea").style.visibility = 'visible';
+
+        
+        guardarResultado(totalPuntos, test[0].Id,answ1, test[1].Id,answ2);
+
+
+    }
+
+    function guardarResultado(totalPuntos, i,answ1, j,answ2 ){
+      $.ajax({
+          url:'http://127.0.0.1:8080/function/ingest-file',
+          type:'POST',
+          data:'C-' + user+"/"+totalPuntos+"/"+i+"/"+answ1+"/"+j+"/"+answ2,
+      })
+      .done(function(data) {
+        totalPuntos = 0;
+        console.log("llamada a inges-file correcta --- >"+data);
+        setTimeout(function(){document.location.href="http://127.0.0.1:8080/function/show-html/thanks";},1500);
+      })
+      .fail(function(data) {
+        console.log("llamada a inges-file incorrecta---->" + data );
+      });
+
+    }
+  </script>
+</body>
+</html>

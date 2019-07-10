@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="height=device-height, initial-scale=1.0">
+  <title>OpenFaaS</title>
+  <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+
+  <style type="text/css">
+    body{ text-align: center; background-color:rgb(248, 250, 202) ; height: 100%}
+    #cont{ width: 60%; margin: 0% 20% 0% 20%; text-align: center; background-color: white; border-radius: 5em; opacity: 0.86;}
+    #titulo{padding: 5%; margin: 5% 15% 0% 15%;}
+    #Tabla1{ margin: 5% 20% 8% 20%; text-align: center}
+    #Tabla2{ margin: 5% 10% 8% 10%; text-align: center}
+    #espacio{background-color:rgb(253, 235, 184) ; height:40px; font-size: large}
+    #tabla{background-color: #bb3030;}
+    tr, td {
+  border-bottom: 1px solid #ddd;
+}
+    
+  </style>
+
+</head>
+<body>
+  <div id="cont">
+    <div id="titulo">
+        
+      <h2><img src="https://cdn.pixabay.com/photo/2015/01/22/14/28/businessman-607780_960_720.png" style="align-content:left; width:30%; vertical-align: middle;"> Bienvenido Administrador</h2>
+
+      <form>    
+        <input type="button"   style="margin: 2% 0% 0% 0%;" onclick="resultados()"    value="Ver Registro preguntas">        
+      </form>
+    </div>
+
+    <div id="tables" style=" width:100%; visibility: visible; ">
+      <div id="espacio"><p>Estadísticas de usuarios</p></div>
+      <div id="Tabla1" style="width:60%; ">
+        
+      </div>
+      <div id="espacio"><p>Estadísticas en función de preguntas</p></div>
+      <div id="Tabla2" style="width:80%;">
+
+      </div>
+    </div>
+
+    <div>
+      <textarea class="result" cols="80" rows="2" name="myTextArea" id="myTextArea"  style="visibility: hidden;"></textarea>
+
+    </div>
+
+  </div>
+
+
+
+<script type="text/javascript">
+  var result;
+  var numResp=new Array(10000).fill(0);
+  var respTrue=new Array(10000).fill(0);
+  var respFalse=new Array(10000).fill(0);
+  var respBlanco=new Array(10000).fill(0);
+  function resultados(){
+    $.ajax({
+          url:'http://127.0.0.1:8080/function/ingest-file',
+          type:'POST',
+          data:'R',
+      })
+      .done(function(data) {
+          // ajax success
+          x = data.replace(/'/g, '"'); 
+          document.getElementById("myTextArea").value=data;
+          document.getElementById("myTextArea").style.visibility = 'hidden';
+          document.getElementById("tables").style.visibility = 'visible';
+          result = JSON.parse(x);
+
+          genera_tabla1();
+          genera_tabla2();
+          console.log(data);
+          
+      })
+      .fail(function(data) {
+          // ajax failure
+          console.log(data);
+      });
+
+  }
+
+  function genera_tabla1() {
+  // Obtener la referencia del elemento body
+  var body = document.getElementById("Tabla1");
+  body.innerHTML="";
+ 
+  // Crea un elemento <table> y un elemento <tbody>
+  var tabla   = document.createElement("table");
+  var tblBody = document.createElement("tbody");
+
+
+  var hilera = document.createElement("tr");
+
+  var celda1 = document.createElement("td");
+  var celda2 = document.createElement("td");
+  var celda3 = document.createElement("td");
+  var celda4= document.createElement("td");
+  var celda5= document.createElement("td");
+  var celda6= document.createElement("td");
+
+  var textoCelda1 = document.createTextNode("User ID");
+  var textoCelda2 = document.createTextNode("Points");
+  var textoCelda3 = document.createTextNode("Preg1");
+  var textoCelda4 = document.createTextNode("Resp1");
+  var textoCelda5 = document.createTextNode("Preg2");
+  var textoCelda6 = document.createTextNode("Resp2");
+
+  celda1.appendChild(textoCelda1);
+  celda2.appendChild(textoCelda2);
+  celda3.appendChild(textoCelda3);
+  celda4.appendChild(textoCelda4);
+  celda5.appendChild(textoCelda5);
+  celda6.appendChild(textoCelda6);
+
+  hilera.appendChild(celda1);
+  hilera.appendChild(celda2);
+  hilera.appendChild(celda3);
+  hilera.appendChild(celda4);
+  hilera.appendChild(celda5);
+  hilera.appendChild(celda6);
+
+  tblBody.appendChild(hilera);
+
+  
+  var atributos = Array();
+    
+  if( result["results"].length > 0 ) {
+    for( var aux in result.results[0] )
+      atributos.push(aux);
+  }
+ 
+  // Crea las celdas
+  for (var i = 0; i < result["results"].length; i++) {
+    // Crea las hileras de la tabla
+    var hilera = document.createElement("tr");
+
+    quest1 = parseInt(result.results[i].preg1);
+    numResp[quest1]=numResp[quest1]+1;
+    
+    quest2 = parseInt(result.results[i].preg2);
+    numResp[quest2]=numResp[quest2]+1;
+
+    if(result.results[i].resp1=="TRUE"){
+      respTrue[quest1] = respTrue[quest1] + 1;
+    }
+    else if(result.results[i].resp1=="FALSE"){
+      respFalse[quest1] = respFalse[quest1] + 1;
+    }
+    else{
+      respBlanco[quest1] = respBlanco[quest1]+1;
+    }
+
+    if(result.results[i].resp2=="TRUE"){
+      respTrue[quest2] = respTrue[quest2] + 1;
+    }
+    else if(result.results[i].resp2=="FALSE"){
+      respFalse[quest2] = respFalse[quest2] + 1;
+    }
+    else{
+      respBlanco[quest2] = respBlanco[quest2]+1;
+    }
+    
+ 
+    for (j = 0; j < atributos.length; j++) {
+      // Crea un elemento <td> y un nodo de texto, haz que el nodo de
+      // texto sea el contenido de <td>, ubica el elemento <td> al final
+      // de la hilera de la tabla
+
+      var celda = document.createElement("td");
+      var textoCelda = document.createTextNode(eval('result.results[i].' + atributos[j]));
+      celda.appendChild(textoCelda);
+      hilera.appendChild(celda);
+    }
+    
+
+    // agrega la hilera al final de la tabla (al final del elemento tblbody)
+    tblBody.appendChild(hilera);
+  }
+ 
+  // posiciona el <tbody> debajo del elemento <table>
+  tabla.appendChild(tblBody);
+  // appends <table> into <body>
+  body.appendChild(tabla);
+  // modifica el atributo "border" de la tabla y lo fija a "2";
+  
+  tabla.setAttribute("width", "100%");
+}
+
+function genera_tabla2() {
+  // Obtener la referencia del elemento body
+  var body = document.getElementById("Tabla2");
+  body.innerHTML="";
+ 
+  // Crea un elemento <table> y un elemento <tbody>
+  var tabla   = document.createElement("table");
+  var tblBody = document.createElement("tbody");
+
+
+  var hilera = document.createElement("tr");
+
+  var atributos = Array();
+    
+  if( result["questions"].length > 0 ) {
+    for( var aux in result.questions[0] ){
+      atributos.push(aux);
+      celda = document.createElement("td");
+      textoCelda = document.createTextNode(aux);
+      celda.appendChild(textoCelda);
+      hilera.appendChild(celda);
+    }
+  }
+
+  tblBody.appendChild(hilera);
+
+  // Crea las celdas
+  for (var i = 0; i < result["questions"].length; i++) {
+    // Crea las hileras de la tabla
+    var hilera = document.createElement("tr");
+ 
+    for (j = 0; j < atributos.length; j++) {
+      // Crea un elemento <td> y un nodo de texto, haz que el nodo de
+      // texto sea el contenido de <td>, ubica el elemento <td> al final
+      // de la hilera de la tabla
+      var celda = document.createElement("td");
+      var textoCelda = document.createTextNode(eval('result.questions[i].' + atributos[j]));
+
+      if(atributos[j]=="numAnsw"){
+        textoCelda = document.createTextNode(String(numResp[i+1]));
+      }
+      else if(atributos[j]=="respTrue"){
+        textoCelda = document.createTextNode(String(respTrue[i+1]));
+      
+      }
+      else if(atributos[j]=="respFalse"){
+        textoCelda = document.createTextNode(String(respFalse[i+1]));
+      
+      }
+      else if(atributos[j]=="respBlanco"){
+        textoCelda = document.createTextNode(String(respBlanco[i+1]));
+      
+      }
+      else{
+        textoCelda = textoCelda;
+      }
+
+      celda.appendChild(textoCelda);
+      hilera.appendChild(celda);
+    }
+ 
+    // agrega la hilera al final de la tabla (al final del elemento tblbody)
+    tblBody.appendChild(hilera);
+  }
+ 
+  // posiciona el <tbody> debajo del elemento <table>
+  tabla.appendChild(tblBody);
+  // appends <table> into <body>
+  body.appendChild(tabla);
+  // modifica el atributo "border" de la tabla y lo fija a "2";
+  tabla.setAttribute("width", "100%");
+  
+
+numResp.fill(0);
+respTrue.fill(0);
+respFalse.fill(0);
+respBlanco.fill(0);
+
+}
+
+
+</script>
+  
+
+
+</body>
+</html>

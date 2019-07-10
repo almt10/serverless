@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <title>OpenFAAS Quiz</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="height=device-height, initial-scale=1.0">
+  <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+
+  <style type="text/css">
+    body{ text-align: center; background-color:rgb(107, 144, 255) ; height: 100%}
+    #cont{ width: 60%; margin: 10% 20% 0% 20%; text-align: center; background-color: white; border-radius: 5em}
+    #titulo{padding: 5%; margin: 12% 15% 0% 15%;}
+    #user2{margin: 0% 30% 2% 30%;  position: center}
+    #pssw2{margin: 0% 30% 7% 30%; position: center}  
+    #logo{height: 50%;  width: 50%; margin: 0% 0% 5% 0%; position: center;}
+    #boton{width: 20%; margin: 0% 0% 3% 0%;}
+  </style>
+
+
+</head>
+
+<body>
+  <div id="cont">
+
+    <h2 id="titulo">Registro en la plataforma sobre conocimiento Serverless</h2>
+
+    <img src="http://www.dit.upm.es/figures/logos/etsitupm2007.png" style="margin: 0% 0% 8% 0%;"></img>
+    <div>
+      <form>
+        <div id="user2">
+            User Id: <p style="width: 5%"></p><input type="text" name="user" id="user">
+        </div>
+        
+        <div id="pssw2">
+            Password: <p style="width: 5%"></p><input type="text" name="pssw" id="pssw"> 
+        </div>
+        
+        <input type="button"    onclick="miFuncion()"    id = "boton" value="Acceder">
+        
+      </form>
+
+    </div>
+
+    <div>
+      <textarea class="result" cols="80" rows="2" name="myTextArea" id="myTextArea"  style="visibility: hidden;"></textarea>
+    </div>
+
+  </div>
+
+
+  <script type="text/javascript">
+    function miFuncion()
+    {
+      document.getElementById("myTextArea").style.visibility = 'hidden';
+      $.ajax({
+          url:'http://127.0.0.1:8080/function/authentication',
+          type:'POST',
+          data:$('#user').val() + "-" +$('#pssw').val(),
+      })
+      .done(function(data) {
+          // ajax success
+          $('.result').val(data);
+
+          setTimeout(refresh,300);
+          console.log(data);
+          
+      })
+      .fail(function(data) {
+          // ajax failure
+          $('.result').val(data);
+          console.log(data);
+      });
+
+        
+    }
+
+    function refresh(){
+      ans = document.getElementById("myTextArea").value.split("\n");
+      if(ans[0] == "ADMIN"){
+        document.location.href="http://127.0.0.1:8080/function/show-html/admin";
+      }
+      else if(ans[0] == "USER"){
+        document.location.href="http://127.0.0.1:8080/function/show-html/user?UserId="+$('#user').val();
+      }    
+      else{
+        document.getElementById("myTextArea").style.visibility = 'visible';
+        document.getElementById("myTextArea").value ="Usuario no registrado, por favor pongase en contacto con el profesor";
+      }
+    }
+  </script>
+</body>
+</html>
