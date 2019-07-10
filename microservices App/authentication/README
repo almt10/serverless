@@ -1,1 +1,3 @@
-asd
+Microservicio encargado de comparar las credenciales del usuario con una base de datos establecida.
+
+**Modificar el contenido de la carpeta json con los usuarios que quieran acceder a la aplicación**
